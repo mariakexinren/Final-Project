@@ -5,6 +5,7 @@ library(dplyr)
 library(billboard)
 library(httr)
 library(miscTools)
+library(ggplot2)
 
 
 # Obtain Spotify access token
@@ -551,3 +552,78 @@ for (i in 1:nrow(list)) {
 # Final dataset including all songs and features from top 1 song of the 
 # Billboard Hot 100 song list from 1960 to 2017. 
 List <- write.csv(list,"Billboard_Top_1.csv")
+
+
+
+
+# Analysis of dataset
+
+top <- read.csv("Billboard_Top_1.csv")
+colnames(top)
+
+
+plot(top)
+
+
+par(mfrow=c(2,4))
+plot(top$year,top$danceability)
+plot(top$year,top$energy)
+plot(top$year,top$loudness)
+plot(top$year,top$speechiness)
+plot(top$year,top$valence)
+plot(top$year,top$tempo)
+plot(top$year,top$duration_ms)
+
+
+
+
+ggplot(top, aes(top$danceability,top$valence)) +
+  geom_point(aes(color = year)) +
+  geom_smooth(se = FALSE) +
+  labs(title = "Danceability vs. Valence")
+
+
+ggplot(top, aes(top$energy,top$valence)) +
+  geom_point(aes(color = year)) +
+  geom_smooth(se = FALSE) +
+  labs(title = "Energy vs. Valence")
+
+ggplot(top, aes(top$loudness,top$valence)) +
+  geom_point(aes(color = year)) +
+  geom_smooth(se = FALSE) +
+  labs(title = "Loudness vs. Valence")
+
+ggplot(top, aes(top$speechiness,top$valence)) +
+  geom_point(aes(color = year)) +
+  geom_smooth(se = FALSE) +
+  labs(title = "Speechiness vs. Valence")
+
+
+ggplot(top, aes(top$tempo,top$valence)) +
+  geom_point(aes(color = year)) +
+  geom_smooth(se = FALSE) +
+  labs(title = "Tempo vs. Valence")
+
+ggplot(top, aes(top$duration_ms,top$valence)) +
+  geom_point(aes(color = year)) +
+  geom_smooth(se = FALSE) +
+  labs(title = "Duration vs. Valence")
+
+
+
+
+
+
+model <- lm(top$valence~top$danceability+top$energy+top$loudness+top$speechiness+top$tempo+top$duration_ms)
+summary(model)
+
+
+
+
+
+
+
+
+
+
+
