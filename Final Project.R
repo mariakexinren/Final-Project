@@ -617,6 +617,8 @@ ggplot(top, aes(top$duration_ms,top$valence)) +
 model <- lm(top$valence~top$danceability+top$energy+top$loudness+top$speechiness+top$tempo+top$duration_ms)
 summary(model)
 
+model_new <- lm(top$valence~top$danceability+top$energy+top$loudness)
+summary(model_new)
 
 
 
