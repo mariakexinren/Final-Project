@@ -16,6 +16,7 @@ Sys.setenv(SPOTIFY_CLIENT_SECRET = '216f8762ba494bb7a626becb67d6a0ab')
 access_token <- get_spotify_access_token()
 
 
+
 # Obtain historical data set: Billboards Hot 100 list (containing top 100 most 
 # popular songs from 1960 to 2016. This dataset comes from the R library "billboard",
 # and the data was scraped from 
@@ -30,9 +31,13 @@ top <- as.tibble(historical) %>% filter(no=="1") %>%
   select(track_name, artist, year)
 
 
-# Form a complete list of top song tracks from 1960 to 2017
+# Form a complete list of top song tracks from 1960 to 2018
 top_complete <- top %>% 
   add_row(track_name = "Shape of You", artist = "Ed Sheeran", year = "2017") %>% 
+  as.tibble()
+
+top_complete <- top_complete %>% 
+  add_row(track_name = "Perfect", artist = "Ed Sheeran", year = "2018") %>% 
   as.tibble()
 
 
@@ -195,6 +200,7 @@ for (i in 1:nrow(list)) {
     list$duration_ms[i] <- str_sub(get_feature_data$duration_ms)
   }
 }
+
 
 # track name: Tie a Yellow Ribbon Round the Ole Oak Tree
 # artist:Tony Orlando and Dawn
@@ -549,6 +555,30 @@ for (i in 1:nrow(list)) {
 }
 
 
+# track name: Perfect
+# artist: Ed Sheeran
+# year: 2018
+
+song_list <- get_track("Ed Sheeran")
+feature_list <- get_features("Ed Sheeran") 
+song_data <- as.tibble(song_list) %>% filter(track_name=="Perfect")
+feature_data <- as.tibble(feature_list) %>% filter(track_uri==song_data$track_uri)
+get_feature_data <- cbind(song_data,feature_data)
+for (i in 1:nrow(list)) {
+  if (list$track_name[i] == "Perfect"){
+    list$track_uri[i] <- str_sub(get_feature_data$track_uri)
+    list$danceability[i] <- str_sub(get_feature_data$danceability)
+    list$energy[i] <- str_sub(get_feature_data$energy)
+    list$loudness[i] <- str_sub(get_feature_data$loudness)
+    list$speechiness[i] <- str_sub(get_feature_data$speechiness)
+    list$acousticness[i] <- str_sub(get_feature_data$acousticness)
+    list$instrumentalness[i] <- str_sub(get_feature_data$instrumentalness)
+    list$liveness[i] <- str_sub(get_feature_data$liveness)
+    list$valence[i] <- str_sub(get_feature_data$valence)
+    list$tempo[i] <- str_sub(get_feature_data$tempo)
+    list$duration_ms[i] <- str_sub(get_feature_data$duration_ms)
+  }
+}
 # Final dataset including all songs and features from top 1 song of the 
 # Billboard Hot 100 song list from 1960 to 2017. 
 List <- write.csv(list,"Billboard_Top_1.csv")
@@ -574,38 +604,60 @@ plot(top$year,top$valence)
 plot(top$year,top$tempo)
 plot(top$year,top$duration_ms)
 
+for (i in 1:nrow(list)) { 
+  if (top$year[i] < 1970) {
+    top$year[i] <- str_sub("1960-1969") 
+  }else if (top$year[i] < 1980){
+    top$year[i] <- str_sub("1970-1979") 
+    
+  }else if (top$year[i] < 1990){
+    top$year[i] <- str_sub("1980-1989") 
+  
+  }else if (top$year[i] < 2000){
+    top$year[i] <- str_sub("1990-1999")
+ 
+  }else if (top$year[i] < 2010){
+    top$year[i] <- str_sub("2000-2009")
+  
+  }else if (top$year[i] < 2019){
+    top$year[i] <- str_sub("2009-2018")
+  }
+}
 
-
-
-ggplot(top, aes(top$danceability,top$valence)) +
-  geom_point(aes(color = year)) +
+ggplot(top, aes(danceability,valence)) +
+  geom_point(aes(color = as.factor(year))) +
   geom_smooth(se = FALSE) +
   labs(title = "Danceability vs. Valence")
 
 
 ggplot(top, aes(top$energy,top$valence)) +
-  geom_point(aes(color = year)) +
+  geom_point(aes(color = as.factor(year))) +
   geom_smooth(se = FALSE) +
   labs(title = "Energy vs. Valence")
 
 ggplot(top, aes(top$loudness,top$valence)) +
-  geom_point(aes(color = year)) +
+  geom_point(aes(color = as.factor(year))) +
   geom_smooth(se = FALSE) +
   labs(title = "Loudness vs. Valence")
 
 ggplot(top, aes(top$speechiness,top$valence)) +
-  geom_point(aes(color = year)) +
+  geom_point(aes(color = as.factor(year))) +
   geom_smooth(se = FALSE) +
   labs(title = "Speechiness vs. Valence")
 
+ggplot(top, aes(top$acousticness,top$valence)) +
+  geom_point(aes(color = as.factor(year))) +
+  geom_smooth(se = FALSE) +
+  labs(title = "Acousticness vs. Valence")
+
 
 ggplot(top, aes(top$tempo,top$valence)) +
-  geom_point(aes(color = year)) +
+  geom_point(aes(color = as.factor(year))) +
   geom_smooth(se = FALSE) +
   labs(title = "Tempo vs. Valence")
 
 ggplot(top, aes(top$duration_ms,top$valence)) +
-  geom_point(aes(color = year)) +
+  geom_point(aes(color = as.factor(year))) +
   geom_smooth(se = FALSE) +
   labs(title = "Duration vs. Valence")
 
@@ -614,18 +666,71 @@ ggplot(top, aes(top$duration_ms,top$valence)) +
 
 
 
-model <- lm(top$valence~top$danceability+top$energy+top$loudness+top$speechiness+top$tempo+top$duration_ms)
-summary(model)
 
-model_new <- lm(top$valence~top$danceability+top$energy+top$loudness)
-summary(model_new)
-
-
-
+top_orig <- read.csv("Billboard_Top_1.csv")
+ggplot(top, aes(fill=top$year, y=top$danceability, x=top$year)) + 
+  geom_bar(position="dodge", stat="identity")
+ggplot(top, aes(fill=as.factor(top_orig$year), y=top_orig$danceability, x=as.factor(top_orig$year))) + 
+  geom_bar(position="dodge", stat="identity")
 
 
+ggplot(top, aes(fill=top$year, y=top$energy, x=top$year)) + 
+  geom_bar(position="dodge", stat="identity")
+ggplot(top, aes(fill=as.factor(top_orig$year), y=top_orig$energy, x=as.factor(top_orig$year))) + 
+  geom_bar(position="dodge", stat="identity")
 
 
+ggplot(top, aes(fill=top$year, y=top$loudness, x=top$year)) + 
+  geom_bar(position="dodge", stat="identity")
+ggplot(top, aes(fill=as.factor(top_orig$year), y=top_orig$loudness, x=as.factor(top_orig$year))) + 
+  geom_bar(position="dodge", stat="identity")
+
+
+ggplot(top, aes(fill=top$year, y=top$speechiness, x=top$year)) + 
+  geom_bar(position="dodge", stat="identity")
+ggplot(top, aes(fill=as.factor(top_orig$year), y=top_orig$speechiness, x=as.factor(top_orig$year))) + 
+  geom_bar(position="dodge", stat="identity")
+
+ggplot(top, aes(fill=top$year, y=top$acousticness, x=top$year)) + 
+  geom_bar(position="dodge", stat="identity")
+ggplot(top, aes(fill=as.factor(top_orig$year), y=top_orig$acousticness, x=as.factor(top_orig$year))) + 
+  geom_bar(position="dodge", stat="identity")
+
+ggplot(top, aes(fill=top$year, y=top$instrumentalness, x=top$year)) + 
+  geom_bar(position="dodge", stat="identity")
+ggplot(top, aes(fill=as.factor(top_orig$year), y=top_orig$instrumentalness, x=as.factor(top_orig$year))) + 
+  geom_bar(position="dodge", stat="identity")
+
+ggplot(top, aes(fill=top$year, y=top$acousticness, x=top$year)) + 
+  geom_bar(position="dodge", stat="identity")
+ggplot(top, aes(fill=as.factor(top_orig$year), y=top_orig$acousticness, x=as.factor(top_orig$year))) + 
+  geom_bar(position="dodge", stat="identity")
+
+ggplot(top, aes(fill=top$year, y=top$valence, x=top$year)) + 
+  geom_bar(position="dodge", stat="identity")
+ggplot(top, aes(fill=as.factor(top_orig$year), y=top_orig$valence, x=as.factor(top_orig$year))) + 
+  geom_bar(position="dodge", stat="identity")
+
+
+
+ggplot(top, aes(fill=top$year, y=top$tempo, x=top$year)) + 
+  geom_bar(position="dodge", stat="identity")
+ggplot(top, aes(fill=as.factor(top_orig$year), y=top_orig$tempo, x=as.factor(top_orig$year))) + 
+  geom_bar(position="dodge", stat="identity")
+
+
+ggplot(top, aes(fill=top$year, y=top$duration_ms, x=top$year)) + 
+  geom_bar(position="dodge", stat="identity")
+ggplot(top, aes(fill=as.factor(top_orig$year), y=top_orig$duration_ms, x=as.factor(top_orig$year))) + 
+  geom_bar(position="dodge", stat="identity")
+
+
+barplot(top$danceability,top$year)
+
+
+plot(top$year,top$valence)
+
+plot(top$energy,top$valence,main = "Scatter Plot",xlab = "features", ylab = "Valence")
 
 
 
