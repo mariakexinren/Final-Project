@@ -11,6 +11,7 @@ library(miscTools)
 library(ggplot2)
 library(car)
 library(ggvis)
+library(plotly)
 
 top <- read.csv("Billboard_Top_1.csv")
 
@@ -147,7 +148,8 @@ ui <- dashboardPage(
       menuItem("dashboard 1", tabName = "firstplot"),
       menuItem("dashboard 2", tabName = "secondplot"),
       menuItem("dashboard 3", tabName = "thirdplot"),
-      menuItem("dashboard 4", tabName = "fourthplot")
+      menuItem("dashboard 4", tabName = "fourthplot"),
+      menuItem("dashboard 5", tabName = "fifthplot")
       
     )
   ),
@@ -264,15 +266,34 @@ ui <- dashboardPage(
                   
                   box(
                       width = 10,
-                      plotOutput("plot3",height = 250))
-                             
-                           
+                      plotOutput("plot3"))
+                            
                            
                       )
-                   )
-                 )
+                    
+                  
+                ),
+              
+  
+  
+  
+  # fifth tab content
+    tabItem(tabName = "fifthplot",
+      
+              fluidRow(
+                  plotlyOutput("plot5")
+                     
+                     ),
+               
+                tags$blockquote("Hover over time series chart to fix a specific date. Correlation chart will update with historical 
+                          correlations (time span will be hover date +/- selected window length)")
               )
             )
+      ) 
+  )
+  
+      
+            
          
        
     
@@ -371,6 +392,36 @@ server <- function(input, output) {
            ylim = input$valence_value)
       
     })
+  
+  
+  # The fifth Plot 
+  
+  # Set some colors
+  plotcolor <- "#F5F1DA"
+  papercolor <- "#E3DFC8"
+  
+  # Plot time series chart 
+  output$plot5 <- renderPlotly({
+    p <- plot_ly(source = "source") %>% 
+      add_lines(data = top_orig, x = top_orig$year, y = top$valence, 
+                color = top_orig$year, mode = "lines", line = list(width = 3),
+                text = ~paste('</br>Year: ', top_orig$year,
+                              '</br>Valence: ', top$valence,
+                              '</br></br>Track: ', top$track_name, 
+                              '</br>Artist: ', top$artist,
+                              '</br>Danceability: ', top$danceability,
+                              '</br>Energy: ', top$energy,
+                              '</br>Loudness: ', top$loudness,
+                              '</br>Speechiness: ', top$speechiness,
+                              '</br>Acousticness: ', top$acousticness,
+                              '</br>Instrumentalness: ', top$instrumentalness,
+                              '</br>Tempo: ', top$tempo,
+                              '</br>Duration: ', top$duration_ms))
+      
+   
+ p
+  
+  })
   
   
   
