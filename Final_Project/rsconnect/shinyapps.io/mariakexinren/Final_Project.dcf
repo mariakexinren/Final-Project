@@ -5,8 +5,8 @@ account: mariakexinren
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 338085
-bundleId: 1359147
+bundleId: 1359171
 url: https://mariakexinren.shinyapps.io/Final_Project/
-when: 1525648694.62944
+when: 1525650476.21498
 asMultiple: FALSE
 asStatic: FALSE
