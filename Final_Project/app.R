@@ -607,7 +607,7 @@ ui <- dashboardPage(
               height = 500,
               h4(
                 p("After filtering out and analyzing songs with valence score above 0.95 (happy) and valence
-                  score below 0,15 (sad), the project concludes with the following analysis. "), 
+                  score below 0.15 (sad), the project concludes with the following analysis: "), 
                 br(),
                 p("A happy song generally has danceability rating above 0.6, energy above 0.7, loudness around -10, 
                   speechiness around 0.06, acousticness around 0.23, and tempo around 130. So if a song is fast, not 

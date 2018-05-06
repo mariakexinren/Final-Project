@@ -939,11 +939,26 @@ The happiest song (highest valence score) belongs to the song track “Joy to th
 
 The saddest song (lowest valence score) belongs to the song track “I Will Always Love You” by Whitney Houston in 1993. The score has a valence score of 0.108, with danceability 0.306, energy 0.214, tempo 67. A significant drop in feature values from “Joy to the World”. It is a slower song, with less energy ratings. Since it’s valence rating is almost 0, this song expresses a sad emotion. 
 
+
+
+\newpage
+
 #Conclusion: 
+```{r}
+
+happy <- subset(top_orig,top_orig$valence > 0.95) %>% select("track_name","artist","year","danceability",                                          "energy","loudness","speechiness","acousticness",
+       "instrumentalness","liveness","valence","tempo","duration_ms")
 
 
+sad <- subset(top_orig,top_orig$valence<0.15)%>% select("track_name","artist","year","danceability",                                                       "energy","loudness","speechiness","acousticness",
+                    "instrumentalness","liveness","valence","tempo","duration_ms")
 
-After filtering out and analyzing songs with valence score above 0.95 (happy) and valence score below 0,15 (sad), the project concludes with the following analysis. 
+happy
+sad
+```
+
+
+After filtering out and analyzing songs with valence score above 0.95 (happy) and valence score below 0.15 (sad), the project concludes with the following analysis: 
 
 A happy song generally has danceability rating above 0.6, energy above 0.7, loudness around -10, speechiness around 0.06, acousticness around 0.23, and tempo around 130. So if a song is fast, not too loud, have a good balance between instrumentation and vocal lyrics, it can usually stimulate happiness within human emotions, and would make people want to dance to the tune.
 
