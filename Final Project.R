@@ -1,3 +1,20 @@
+# Final Project
+
+
+# This is only the code part of the project, the specific analysis is included in both 
+# the shiny app and the Final_Project_Write_Up.Rmd file. 
+
+# Warning: the get_track and get_features functions below works, but can be a little slow. 
+# Also, sometimes they don't work on the first try- you might have to rerun the specific
+# code again. (They will work for sure, the Spotify API access code can be a little slow and 
+# weird.) But I already saved the correct finalized tidy dataset named Billboard_Top_1.csv, and 
+# it is saved in the same directory as both the github and the shiny app folder. So you can skip 
+# to the section labeled Analysis of dataset of the document if runtime of the code takes too long.
+
+
+
+# The project libraries are listed below
+
 library(devtools)
 library(spotifyr)
 library(tidyverse)
@@ -6,6 +23,14 @@ library(billboard)
 library(httr)
 library(miscTools)
 library(ggplot2)
+
+
+# install.packages("devtools")
+# install.packages("spotifyr")
+# install.packages("billboard")
+# install.packages("httr")
+# install.packages("miscTools")
+# install.packages("ggplot2")
 
 
 # Obtain Spotify access token
@@ -82,6 +107,11 @@ get_features <- function(artist) {
 
 
 
+# Warning: the get_track and get_features functions works, but can be a little slow. 
+# Also, sometimes they don't work on the first try- you might have to rerun the specific
+# code again. (They will work for sure, the Spotify API access code can be a little slow and 
+# weird.) But I already saved the correct finalized tidy dataset named Billboard_Top_1.csv, and 
+# it is saved in the same directory as both the github and the shiny app folder.
 
 # track name: Sugar Shack
 # artist: The Fireballs 
@@ -109,6 +139,7 @@ for (i in 1:nrow(list)) {
 }
 
 
+
 # track name: Wooly Bully
 # artist: Sam the Sham and the Pharaohs
 # year: 1965 
@@ -133,6 +164,7 @@ for (i in 1:nrow(list)) {
     list$duration_ms[i] <- str_sub(get_feature_data$duration_ms)
   }
 }
+
 
 
 
@@ -578,7 +610,7 @@ for (i in 1:nrow(list)) {
 
 # Final dataset including all songs and features from top 1 song of the 
 # Billboard Hot 100 song list from 1960 to 2017. 
-List <- write.csv(list,"Billboard_Top_1.csv")
+List <- write.csv(list,"Billboard_Top_1_write.csv")
 
 
 

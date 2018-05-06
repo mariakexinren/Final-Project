@@ -11,6 +11,31 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+
+```{r,include=FALSE}
+# The project libraries are listed below
+
+library(devtools)
+library(spotifyr)
+library(tidyverse)
+library(dplyr)
+library(billboard)
+library(httr)
+library(miscTools)
+library(ggplot2)
+library(knitr)
+library(kableExtra)
+
+# install.packages("devtools")
+# install.packages("spotifyr")
+# install.packages("billboard")
+# install.packages("httr")
+# install.packages("miscTools")
+# install.packages("ggplot2")
+# install.packages("kableExtra")
+
+```
+
 # Introduction
 
 
@@ -21,7 +46,6 @@ In the twenty-first century, music has become one of the most important parts of
 Among these music platforms, Spotify is one of the most popular digital music services that provides its users with access to millions of songs. It also gives users the ability to rate music according to their own personal preference and taste. 
 
 This project uses real time and historical data extracted from the Spotify API (Developer Portal), and analyzes the different elements of a soundtrack that changes human emotions. The musical data consists of musical features and ratings for the number one songs from “Billboard Hot 100 Chart” from 1960 to 2018.  
-
 
 
 # Audio Features: 
@@ -59,21 +83,6 @@ Describes the tempo of a track in beats per minute (BPM). Values ranges from 0 t
 Describes the length of the soundtrack. Calculated in milliseconds. 
 
 #Data Cleaning  
-
-```{r,include=FALSE}
-library(devtools)
-library(spotifyr)
-library(tidyverse)
-library(dplyr)
-library(billboard)
-library(httr)
-library(miscTools)
-library(ggplot2)
-library(knitr)
-library(kableExtra)
-
-```
-
 
 - Obtain Spotify access token 
 - Set Spotify client ID and client secret 
@@ -175,6 +184,9 @@ get_features <- function(artist) {
 
 
 - Obtaining audio features for the incomplete song tracks  
+
+- Warning: the get_track and get_features functions works, but can be a little slow. Also, sometimes they don't work on the first try- you might have to rerun the specific code again. (They will work for sure, the Spotify API access code can be a little slow andweird.) But I already saved the correct finalized tidy dataset named Billboard_Top_1.csv, and it is saved in the same directory as both the github and the shiny app folder.So you can skip to the section labeled Analysis of dataset of the document if runtime of the code takes too long.
+
 
 ```{r,eval= FALSE}
 

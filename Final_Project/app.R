@@ -1,3 +1,7 @@
+# Final Project
+# Maria Ren
+
+# The project libraries are listed below
 
 library(shiny)
 library(devtools)
@@ -11,6 +15,16 @@ library(ggplot2)
 library(car)
 library(ggvis)
 library(plotly)
+
+# install.packages("devtools")
+# install.packages("spotifyr")
+# install.packages("billboard")
+# install.packages("httr")
+# install.packages("miscTools")
+# install.packages("ggplot2")
+# install.packages("car")
+# install.packages("ggvis")
+# install.packages("plotly")
 
 top <- read.csv("Billboard_Top_1.csv")
 
