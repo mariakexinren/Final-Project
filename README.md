@@ -3,17 +3,22 @@
 ## Notes about the project 
 
 #### Shiny App Link: 
-
-#### Final_Project folder includes the shiny app files.
-#### Billboard_Top_1.csv file is the finalized tidy dataset. 
-#### Final Project.R is the file that has all the code.
-#### Final_Project_Write_Up.Rmd is the file that has the R Markdown code.
-#### Final_Project_Write_Up.pdf is the pdf output from the R Markdown code.(The Final Project.R file is only the code part of the project, the specific analysis is included in both the shiny app and the Final_Project_Write_Up.Rmd file.)
-
+https://mariakexinren.shinyapps.io/Final_Project/
+#### Final_Project folder 
+includes the shiny app files.
+#### Billboard_Top_1.csv 
+the finalized tidy dataset. 
+#### Final_Project_Write_Up.Rmd 
+file that has the R Markdown code.
+#### Final_Project_Write_Up.pdf 
+pdf output from the R Markdown code.
+#### Final Project.R 
+file that has all the code.(The Final Project.R file is only the code part of the project, the specific analysis is included in both the shiny app and the Final_Project_Write_Up.Rmd file.)
 
 #### All the project libraries I used for the project are listed below, I have also included the install.packages() as comments in each document
 
-library(shiny)  
+library(shiny) 
+library(shinydashboard)  
 library(devtools)  
 library(spotifyr)  
 library(tidyverse)    

@@ -185,7 +185,7 @@ get_features <- function(artist) {
 
 - Obtaining audio features for the incomplete song tracks  
 
-- Warning: the get_track and get_features functions works, but can be a little slow. Also, sometimes they don't work on the first try- you might have to rerun the specific code again. (They will work for sure, the Spotify API access code can be a little slow andweird.) But I already saved the correct finalized tidy dataset named Billboard_Top_1.csv, and it is saved in the same directory as both the github and the shiny app folder.So you can skip to the section labeled Analysis of dataset of the document if runtime of the code takes too long.
+- Warning: the get_track and get_features functions works, but can be a little slow. Also, sometimes they don't work on the first try- you might have to rerun the specific code again. (They will work for sure, the Spotify API access code can be a little slow and weird.) But I already saved the correct finalized tidy dataset named Billboard_Top_1.csv, and it is saved in the same directory as both the github and the shiny app folder. So you can skip to the section labeled Analysis of dataset of the document if runtime of the code takes too long.
 
 
 ```{r,eval= FALSE}

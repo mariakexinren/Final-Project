@@ -825,4 +825,5 @@ happy <- subset(top_orig,top_orig$valence > 0.95) %>% select("track_name","artis
 sad <- subset(top_orig,top_orig$valence<0.15)%>% select("track_name","artist","year","danceability",
                                                         "energy","loudness","speechiness","acousticness",
                                                         "instrumentalness","liveness","valence","tempo","duration_ms")
-
+happy
+sad

@@ -503,7 +503,7 @@ ui <- dashboardPage(
                           
                           h4(
                               p("*Please select valence/happiness level and audio feature, then click on 
-                                Individual points on scatter plot below to view track information",style = "color:blue")) 
+                                Individual point on scatter plot below to view track information",style = "color:blue")) 
                           ),
                               
                               
