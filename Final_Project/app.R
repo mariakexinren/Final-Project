@@ -277,7 +277,7 @@ ui <- dashboardPage(
                                   "tempo"="tempo",
                                   "duration"="duration_ms")),
                     hr(),
-                    helpText("Data from top hot 100 billboard."),
+                    helpText("Data from Spotify."),
                     
                   
                     box(
