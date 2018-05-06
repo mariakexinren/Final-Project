@@ -153,7 +153,7 @@ ui <- dashboardPage(
       menuItem("Introduction",tabName = "intro"),
       menuItem("Dataset Keys",tabName = "key"),
       menuItem("Spotify Audio Features", tabName = "firstplot"),
-      menuItem("Audio Features vs.Valence", tabName = "secondplot"),
+      menuItem("Audio Features vs. Valence", tabName = "secondplot"),
       menuItem("Individual Features Selections", tabName = "fourthplot"),
       menuItem("Individual Features Time Series", tabName = "thirdplot"),
       menuItem("In Depth Valence Time Series", tabName = "fifthplot"),
@@ -357,7 +357,7 @@ ui <- dashboardPage(
                             "tempo"="tempo",
                             "duration"="duration_ms")),
               hr(),
-              helpText("Data from top hot 100 billboard.")
+              helpText("Data from Spotify.")
               ),
             
             box(
@@ -395,7 +395,7 @@ ui <- dashboardPage(
               box(
                   
                   h4(
-                    p("*Select audio feature to view individual audio feature time series plot") 
+                    p("*Select audio feature to view individual audio feature time series plot",style = "color:blue") 
                   )
                 ),
               box(
@@ -456,7 +456,7 @@ ui <- dashboardPage(
                           
                           h4(
                               p("*Please select valence/happiness level and audio feature, then click on 
-                                Individual points on scatter plot below to view track information")) 
+                                Individual points on scatter plot below to view track information",style = "color:blue")) 
                           ),
                               
                               
@@ -494,7 +494,7 @@ ui <- dashboardPage(
                      
                      ),
                
-                tags$blockquote("*Hover over time series chart to see information of specific tracks."),
+                tags$blockquote("*Hover over time series chart to see information of specific tracks.",style = "color:blue"),
               
     box(
     
