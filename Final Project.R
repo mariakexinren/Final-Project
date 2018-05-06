@@ -58,18 +58,14 @@ list <- subset(list, select = -c(track_name.y,artist_id,explicit,type,uri,track_
 
 
 
-
-
-
-
 # Still need data for the following artist and song track 
 incomplete_index <- which(is.na(list$track_uri), arr.ind=TRUE)
 list[incomplete_index,] %>% select(track_name,artist,year)
 
 
+
 # Pull data from Spotify API 
 # Write functions get_track and get_features 
-
 get_track <- function(artist) {
   artists <- get_artists(artist)
   albums <- get_albums(artists$artist_uri[1])
@@ -579,6 +575,7 @@ for (i in 1:nrow(list)) {
     list$duration_ms[i] <- str_sub(get_feature_data$duration_ms)
   }
 }
+
 # Final dataset including all songs and features from top 1 song of the 
 # Billboard Hot 100 song list from 1960 to 2017. 
 List <- write.csv(list,"Billboard_Top_1.csv")
@@ -592,17 +589,73 @@ top <- read.csv("Billboard_Top_1.csv")
 colnames(top)
 
 
+# Barplot of different audio features 
+barplot(top$danceability,
+        main = "Danceability vs. Year",
+        xlab = "Year", 
+        ylab = "Danceability")
+summary(top$danceability)
 
-par(mfrow=c(2,4))
-plot(top$year,top$danceability)
-plot(top$year,top$energy)
-plot(top$year,top$loudness)
-plot(top$year,top$speechiness)
-plot(top$year,top$valence)
-plot(top$year,top$tempo)
-plot(top$year,top$duration_ms)
+barplot(top$energy,
+        main = "Energy vs. Year",
+        xlab = "Year", 
+        ylab = "Energy")
+summary(top$energy)
 
-for (i in 1:nrow(list)) { 
+barplot(top$loudness,
+        main = "Loudness vs. Year",
+        xlab = "Year", 
+        ylab = "Loudness")
+summary(top$loudness)
+
+barplot(top$speechiness,
+        main = "Speechiness vs. Year",
+        xlab = "Year", 
+        ylab = "Speechiness")
+summary(top$speechiness)
+
+barplot(top$acousticness,
+        main = "Acousticness vs. Year",
+        xlab = "Year", 
+        ylab = "Acousticness")
+summary(top$acousticness)
+
+barplot(top$instrumentalness,
+        main = "Instrumentalness vs. Year",
+        xlab = "Year", 
+        ylab = "Instrumentalness")
+summary(top$instrumentalness)
+
+barplot(top$liveness,
+        main = "Liveness vs. Year",
+        xlab = "Year", 
+        ylab = "Liveness")
+summary(top$liveness)
+
+barplot(top$valence,
+        main = "Valence vs. Year",
+        xlab = "Year", 
+        ylab = "Valence")
+summary(top$valence)
+
+barplot(top$tempo,
+        main = "Tempo vs. Year",
+        xlab = "Year", 
+        ylab = "Tempo")
+summary(top$tempo)
+
+barplot(top$duration_ms,
+        main = "Duration vs. Year",
+        xlab = "Year", 
+        ylab = "Duration")
+summary(top$duration_ms)
+
+
+# Change year index so that year would be displayed as by decade instead of just one single 
+# year. (this is specifically created for the ggplot analysis later, since I don't want continuous
+# scale for the legend.)
+
+for (i in 1:nrow(top)) { 
   if (top$year[i] < 1970) {
     top$year[i] <- str_sub("1960-1969") 
   }else if (top$year[i] < 1980){
@@ -622,6 +675,7 @@ for (i in 1:nrow(list)) {
   }
 }
 
+# ggplot analysis for each audio feature vs. valence
 ggplot(top, aes(danceability,valence)) +
   geom_point(aes(color = as.factor(year))) +
   geom_smooth(se = FALSE) +
@@ -654,6 +708,11 @@ ggplot(top, aes(top$tempo,top$valence)) +
   geom_smooth(se = FALSE) +
   labs(title = "Tempo vs. Valence")
 
+ggplot(top, aes(top$liveness,top$valence)) +
+  geom_point(aes(color = as.factor(year))) +
+  geom_smooth(se = FALSE) +
+  labs(title = "Liveness vs. Valence")
+
 ggplot(top, aes(top$duration_ms,top$valence)) +
   geom_point(aes(color = as.factor(year))) +
   geom_smooth(se = FALSE) +
@@ -661,58 +720,77 @@ ggplot(top, aes(top$duration_ms,top$valence)) +
 
 
 
+# Scatterplot of different audio features
+par(mfrow=c(2,5))
+
+plot(top$valence,top$danceability)
+plot(top$valence,top$energy)
+plot(top$valence,top$loudness)
+plot(top$valence,top$speechiness)
+plot(top$valence,top$liveness)
+plot(top$valence,top$tempo)
+plot(top$valence,top$duration_ms)
+plot(top$valence,top$acousticness)
+plot(top$valence,top$instrumentalness)
 
 
 
+# Individual audio feature time series plot 
 
 top_orig <- read.csv("Billboard_Top_1.csv")
-ggplot(top, aes(fill=top$year, y=top$danceability, x=top$year)) + 
-  geom_bar(position="dodge", stat="identity")
+ggplot(top, aes(fill=top$year, y=top_orig$danceability, x=top_orig$year)) + 
+  geom_line(color="purple") +
+  geom_point()
 
 
-ggplot(top, aes(fill=top$year, y=top$energy, x=top$year)) + 
-  geom_bar(position="dodge", stat="identity")
+ggplot(top, aes(fill=top$year, y=top_orig$energy, x=top_orig$year)) + 
+  geom_line(color="purple") +
+  geom_point()
+
+ggplot(top, aes(fill=top$year, y=top_orig$loudness, x=top_orig$year)) + 
+  geom_line(color="purple") +
+  geom_point()
+
+ggplot(top, aes(fill=top$year, y=top_orig$speechiness, x=top_orig$year)) + 
+  geom_line(color="purple") +
+  geom_point()
 
 
-ggplot(top, aes(fill=top$year, y=top$loudness, x=top$year)) + 
-  geom_bar(position="dodge", stat="identity")
+ggplot(top, aes(fill=top$year, y=top_orig$acousticness, x=top_orig$year)) + 
+  geom_line(color="purple") +
+  geom_point()
 
 
-ggplot(top, aes(fill=top$year, y=top$speechiness, x=top$year)) + 
-  geom_bar(position="dodge", stat="identity")
+ggplot(top, aes(fill=top$year, y=top_orig$instrumentalness, x=top_orig$year)) + 
+  geom_line(color="purple") +
+  geom_point()
 
 
-ggplot(top, aes(fill=top$year, y=top$acousticness, x=top$year)) + 
-  geom_bar(position="dodge", stat="identity")
+ggplot(top, aes(fill=top$year, y=top_orig$acousticness, x=top_orig$year)) + 
+  geom_line(color="purple") +
+  geom_point()
 
-
-ggplot(top, aes(fill=top$year, y=top$instrumentalness, x=top$year)) + 
-  geom_bar(position="dodge", stat="identity")
-
-
-ggplot(top, aes(fill=top$year, y=top$acousticness, x=top$year)) + 
-  geom_bar(position="dodge", stat="identity")
-
-ggplot(top, aes(fill=top$year, y=top$valence, x=top$year)) + 
-  geom_bar(position="dodge", stat="identity")
+ggplot(top, aes(fill=top$year, y=top_orig$valence, x=top_orig$year)) + 
+  geom_line(color="purple") +
+  geom_point()
 
 
 
+ggplot(top, aes(fill=top$year, y=top_orig$tempo, x=top_orig$year)) + 
+  geom_line(color="purple") +
+  geom_point()
 
-ggplot(top, aes(fill=top$year, y=top$tempo, x=top$year)) + 
-  geom_bar(position="dodge", stat="identity")
+ggplot(top, aes(fill=top$year, y=top_orig$duration_ms, x=top_orig$year)) + 
+  geom_line(color="purple") +
+  geom_point()
 
 
 
-ggplot(top, aes(fill=top$year, y=top$duration_ms, x=top$year)) + 
-  geom_bar(position="dodge", stat="identity")
-
-
-barplot(top$danceability,top$year)
-
-plot(top$year,top$valence)
-
-plot(top$energy,top$valence,main = "Scatter Plot",xlab = "features", ylab = "Valence")
-
-summary(top$danceability)
+# Analysis and conclusion
+happy <- subset(top_orig,top_orig$valence > 0.95) %>% select("track_name","artist","year","danceability",
+                                                             "energy","loudness","speechiness","acousticness",
+                                                             "instrumentalness","liveness","valence","tempo","duration_ms")
+sad <- subset(top_orig,top_orig$valence<0.15)%>% select("track_name","artist","year","danceability",
+                                                        "energy","loudness","speechiness","acousticness",
+                                                        "instrumentalness","liveness","valence","tempo","duration_ms")
 

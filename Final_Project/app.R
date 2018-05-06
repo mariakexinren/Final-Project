@@ -156,7 +156,8 @@ ui <- dashboardPage(
       menuItem("Individual Features Selections", tabName = "fourthplot"),
       menuItem("Individual Features Time Series", tabName = "thirdplot"),
       menuItem("In Depth Valence Time Series", tabName = "fifthplot"),
-      menuItem("Reference Data Table", tabName = "sixthplot")
+      menuItem("Reference Data Table", tabName = "sixthplot"),
+      menuItem("Conclusion", tabName = "conclusion")
       
     )
   ),
@@ -264,7 +265,7 @@ ui <- dashboardPage(
                   sidebarPanel(
                     
                     
-                    selectInput("Features_X", "Different Audio Features:", 
+                    selectInput("Features_X", "*Select different audio features to view basic statistical values", 
                                 c("danceability"= "danceability",
                                   "energy"="energy",
                                   "loudness"="loudness",
@@ -283,9 +284,10 @@ ui <- dashboardPage(
                       width = 20,
                       verbatimTextOutput("basic_stats")  
                     )
+                  
+                  
+                    
                   ),
-                  
-                  
                   
                   # Create a spot for the plot
                   mainPanel(
@@ -345,7 +347,7 @@ ui <- dashboardPage(
             box(plotOutput("plot1", height = 500)),
             br(),
             box(
-              selectInput("Features_X1", "Different Audio Features:", 
+              selectInput("Features_X1", "*Select different audio features to view plots", 
                           c("danceability"= "danceability",
                             "energy"="energy",
                             "loudness"="loudness",
@@ -415,10 +417,42 @@ ui <- dashboardPage(
                                 "duration"="duration_ms")
                               )
                   
-                       )
-              
+                       ),
+              box(
                 
-                )
+                h4(
+                  width = 40,
+                  p("Description:")), 
+                br(),
+                h5(
+                  p("Focusing on analysis of individual audio features. Time series plot shows the change of values
+                    across time."), 
+                  br(),
+                  h4(
+                    p("Analysis: ")),
+                  h5(
+                    br(),
+                    p("The features that seems to follow an increasing trend is loudness. This shows that as time goes
+                  on, popular music tends to be quieter (as the y-axis goes from -60 to 0, the closer loudness to 0, 
+                    the quieter the songs are)."),
+                    br(),
+                    p("Similarly with speechiness. The songs between 2000 and 2018 seems to have many spikes in  speechiness
+                      graphs. One reason could be the increasing popularity in rap music."),
+                    br(),
+                    p("Duration is another feature that slightly increased with time. As time went on, music got a 
+                      little longer (although not by a lot)."),
+                    br(),
+                    p("Instrumentalness seems to decrease over time. Between 1960 to 1965, music tends to have more 
+                      instrumental preludes and interludes, while after 1965, popular music tends to have more lyrics 
+                      and vocal lines."),
+                    br(),
+                    p("All the other features seems to follow a pretty constant trend over time. ")
+                    )
+                 )
+              
+              )
+            )
+                
          ),
       
       # fourth tab content
@@ -488,7 +522,7 @@ ui <- dashboardPage(
             # Give the page a title
             titlePanel("In Depth Valence Time Series"),
               fluidRow(
-                
+                  
                   plotlyOutput("plot5")
                      
                      ),
@@ -560,10 +594,50 @@ ui <- dashboardPage(
               DT::dataTableOutput("table",width = "100%")
             )
           )
+        ),
+     
+  
+  # Conclusion
+  tabItem(tabName = "conclusion",
+          # Give the page a title
+          titlePanel("Project Conclusion"),
+          fluidRow(
+            box(
+              width = 40,
+              height = 500,
+              h4(
+                p("After filtering out and analyzing songs with valence score above 0.95 (happy) and valence
+                  score below 0,15 (sad), the project concludes with the following analysis. "), 
+                br(),
+                p("A happy song generally has danceability rating above 0.6, energy above 0.7, loudness around -10, 
+                  speechiness around 0.06, acousticness around 0.23, and tempo around 130. So if a song is fast, not 
+                  too loud, have a good balance between instrumentation and vocal lyrics, it can usually stimulate 
+                  happiness within human emotions, and would make people want to dance to the tune."), 
+                br(),
+                p("A sad song generally has danceability rating below 0.3, energy below 0.2, loudness around -15, 
+                  speechiness around 0.03, acousticness around 0.80, and tempo around 60. So when we hear a song that 
+                  generally involves slower tempo, filled with sounds that are more acoustic (as oppose to electronic), 
+                  and with less spoken words/lyrics, it usually feels like a sad song. "),
+                br(),
+                p("Interestingly, sad songs seems to score higher in loudness than happy songs. Intuitively, sad songs 
+                  should be quieter as they generally expresses melancholy and sorrow. Yet, some songs (like “I will always 
+                  love you” Whitney Houston, which scored the lowest on valence level) gets loud during its climatic 
+                  section, expressing heartfelt passions and emotions. "),
+                br(),
+                p("So next time, when you need to select a song that fits a certain mood, be sure to check out its audio 
+                  features and valence scores! ")
+                
+                )
+              )
+            )
         )
-     )
+    )
   )
 )
+
+
+    
+  
     
       
 
