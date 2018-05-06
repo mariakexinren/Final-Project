@@ -592,8 +592,6 @@ top <- read.csv("Billboard_Top_1.csv")
 colnames(top)
 
 
-plot(top)
-
 
 par(mfrow=c(2,4))
 plot(top$year,top$danceability)
@@ -670,67 +668,51 @@ ggplot(top, aes(top$duration_ms,top$valence)) +
 top_orig <- read.csv("Billboard_Top_1.csv")
 ggplot(top, aes(fill=top$year, y=top$danceability, x=top$year)) + 
   geom_bar(position="dodge", stat="identity")
-ggplot(top, aes(fill=as.factor(top_orig$year), y=top_orig$danceability, x=as.factor(top_orig$year))) + 
-  geom_bar(position="dodge", stat="identity")
 
 
 ggplot(top, aes(fill=top$year, y=top$energy, x=top$year)) + 
-  geom_bar(position="dodge", stat="identity")
-ggplot(top, aes(fill=as.factor(top_orig$year), y=top_orig$energy, x=as.factor(top_orig$year))) + 
   geom_bar(position="dodge", stat="identity")
 
 
 ggplot(top, aes(fill=top$year, y=top$loudness, x=top$year)) + 
   geom_bar(position="dodge", stat="identity")
-ggplot(top, aes(fill=as.factor(top_orig$year), y=top_orig$loudness, x=as.factor(top_orig$year))) + 
-  geom_bar(position="dodge", stat="identity")
 
 
 ggplot(top, aes(fill=top$year, y=top$speechiness, x=top$year)) + 
   geom_bar(position="dodge", stat="identity")
-ggplot(top, aes(fill=as.factor(top_orig$year), y=top_orig$speechiness, x=as.factor(top_orig$year))) + 
-  geom_bar(position="dodge", stat="identity")
+
 
 ggplot(top, aes(fill=top$year, y=top$acousticness, x=top$year)) + 
   geom_bar(position="dodge", stat="identity")
-ggplot(top, aes(fill=as.factor(top_orig$year), y=top_orig$acousticness, x=as.factor(top_orig$year))) + 
-  geom_bar(position="dodge", stat="identity")
+
 
 ggplot(top, aes(fill=top$year, y=top$instrumentalness, x=top$year)) + 
   geom_bar(position="dodge", stat="identity")
-ggplot(top, aes(fill=as.factor(top_orig$year), y=top_orig$instrumentalness, x=as.factor(top_orig$year))) + 
-  geom_bar(position="dodge", stat="identity")
+
 
 ggplot(top, aes(fill=top$year, y=top$acousticness, x=top$year)) + 
-  geom_bar(position="dodge", stat="identity")
-ggplot(top, aes(fill=as.factor(top_orig$year), y=top_orig$acousticness, x=as.factor(top_orig$year))) + 
   geom_bar(position="dodge", stat="identity")
 
 ggplot(top, aes(fill=top$year, y=top$valence, x=top$year)) + 
   geom_bar(position="dodge", stat="identity")
-ggplot(top, aes(fill=as.factor(top_orig$year), y=top_orig$valence, x=as.factor(top_orig$year))) + 
-  geom_bar(position="dodge", stat="identity")
+
 
 
 
 ggplot(top, aes(fill=top$year, y=top$tempo, x=top$year)) + 
   geom_bar(position="dodge", stat="identity")
-ggplot(top, aes(fill=as.factor(top_orig$year), y=top_orig$tempo, x=as.factor(top_orig$year))) + 
-  geom_bar(position="dodge", stat="identity")
+
 
 
 ggplot(top, aes(fill=top$year, y=top$duration_ms, x=top$year)) + 
-  geom_bar(position="dodge", stat="identity")
-ggplot(top, aes(fill=as.factor(top_orig$year), y=top_orig$duration_ms, x=as.factor(top_orig$year))) + 
   geom_bar(position="dodge", stat="identity")
 
 
 barplot(top$danceability,top$year)
 
-
 plot(top$year,top$valence)
 
 plot(top$energy,top$valence,main = "Scatter Plot",xlab = "features", ylab = "Valence")
 
-
+summary(top$danceability)
 
